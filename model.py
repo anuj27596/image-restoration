@@ -11,7 +11,7 @@ def conv2d_block(input_tensor, n_filters, kernel_size=3):
 
 	return x
 
-def get_Model(input_img, n_filters=16, depth=4, output_channels=3):
+def get_Model(input_img, n_filters=16, depth=4, res_exp=0, output_channels=3):
 
 	l = conv2d_block(input_img, n_filters=n_filters, kernel_size=3)
 	l = MaxPooling2D((2, 2)) (l)
@@ -22,9 +22,9 @@ def get_Model(input_img, n_filters=16, depth=4, output_channels=3):
 
 	l = conv2d_block(l, n_filters=n_filters * 2**depth, kernel_size=3)
 
-	for i in range(depth):
-		l = Conv2DTranspose(n_filters * 2**(depth-i-1), (3, 3), strides=(2, 2), padding='same') (l)
-		l = conv2d_block(l, n_filters=n_filters * 2**(depth-i-1), kernel_size=3)
+	for i in range(depth+res_exp):
+		l = Conv2DTranspose(int(n_filters * 2**(depth-i-1)), (3, 3), strides=(2, 2), padding='same') (l)
+		l = conv2d_block(l, n_filters=int(n_filters * 2**(depth-i-1)), kernel_size=3)
 
 	
 	outputs = Conv2D(output_channels, (1, 1), activation='sigmoid') (l)

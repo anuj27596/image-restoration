@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from model import get_Model
+import os
+
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
 
 class BMCallback(Callback):
@@ -32,9 +35,10 @@ mask = (np.sum(img, axis=2) > 0).reshape(M, N, 1)	# pixels of text are (0,0,0) (
 
 F = 16
 
-model = get_Model(Input((M, N, F)), n_filters=16)
+model = get_Model(Input((M, N, F)), n_filters=8, depth=4, output_channels=C)
 model.compile(optimizer=Adam(), loss=mse_masked(mask))
 
+np.random.seed(1)
 z = np.random.uniform(low=-1, high=1, size=(1,M,N,F))
 
 bmcb = BMCallback()

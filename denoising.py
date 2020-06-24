@@ -1,12 +1,14 @@
 from keras.layers import Input
 from keras.optimizers import Adam
 import keras.backend as K
-import tensorflow as tf
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 from model import get_Model
+import os
+
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
 def mse_gr(gr):
 	def loss_func(y_true, y_pred):
@@ -23,8 +25,6 @@ noisy_img = np.vectorize(lambda x: 1.0 if x>1 else 0.0 if x<0 else x)(noisy_img)
 
 F = 16
 
-tf.set_random_seed(100)
-
 model = get_Model(Input((M, N, F)), n_filters=8, depth=4, output_channels=C)
 model.compile(optimizer=Adam(), loss='mse', metrics=[mse_gr(gr_img)])
 
@@ -32,7 +32,7 @@ np.random.seed(2)
 z = np.random.uniform(low=-1, high=1, size=(1,M,N,F))
 
 
-model.fit(z, noisy_img.reshape((1,M,N,C)), epochs=900, verbose=1)
+model.fit(z, noisy_img.reshape((1,M,N,C)), epochs=2000, verbose=1)
 
 j = model.predict(z)
 
