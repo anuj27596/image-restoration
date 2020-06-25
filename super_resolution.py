@@ -63,7 +63,6 @@ from skimage.transform import resize
 plt.imshow(resize(img, (4*M, 4*N)))
 
 plt.subplot(2,1,2)
-from scipy.ndimage import convolve
 plt.imshow(j[0,:,:,0])
 
 plt.figure()
