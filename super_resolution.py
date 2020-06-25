@@ -51,7 +51,7 @@ z = np.random.uniform(low=-1, high=1, size=(1,M,N,F))
 
 bmcb = BMCallback()
 
-model.fit(z, img.reshape((1,M,N,1)), epochs=6000, verbose=1, callbacks=[bmcb])
+model.fit(z, img.reshape((1,M,N,1)), epochs=3000, verbose=1, callbacks=[bmcb])
 model.set_weights(bmcb.best_weights)
 
 j = model.predict(z)
