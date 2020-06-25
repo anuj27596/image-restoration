@@ -35,7 +35,7 @@ mask = (np.sum(img, axis=2) > 0).reshape(M, N, 1)	# pixels of text are (0,0,0) (
 
 F = 16
 
-model = get_Model(Input((M, N, F)), n_filters=8, depth=4, output_channels=C)
+model = get_Model(Input((M, N, F)), n_filters=16, depth=4, output_channels=C)
 model.compile(optimizer=Adam(), loss=mse_masked(mask))
 
 np.random.seed(1)
