@@ -1,5 +1,6 @@
 from keras.layers import *
 from keras.models import Model
+import tensorflow as tf
 
 def conv2d_block(input_tensor, n_filters, kernel_size=3):
 
@@ -12,6 +13,7 @@ def conv2d_block(input_tensor, n_filters, kernel_size=3):
 	return x
 
 def get_Model(input_img, n_filters=16, depth=4, res_exp=0, output_channels=3):
+	tf.random.set_seed(2)
 
 	l = conv2d_block(input_img, n_filters=n_filters, kernel_size=3)
 	l = MaxPooling2D((2, 2)) (l)
